@@ -27,14 +27,10 @@
             <input type="password" class="form-control" id="password" placeholder="Password" required>
         </div>
     </div>
-    <div class="form-check d-flex align-items-center justify-content-between mb-3">
-        <div class="d-flex align-items-center">
-            <input class="form-check-input me-2" type="checkbox" id="ingatSaya">
-            <label class="form-check-label" for="ingatSaya">Ingat Saya</label>
-        </div>
-        <a href="/forgot-password" class="text-decoration-none">Lupa Password?</a>
-    </div>
     <button type="submit" class="btn btn-success w-100 mt-3 mb-3">Login</button>
+    <div class="text-center">
+        <a href="/forgot-password" class="text-decoration-none">Lupa Password?</a>
+    </div>    
 </form>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

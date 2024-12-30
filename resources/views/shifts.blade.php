@@ -110,7 +110,7 @@
                 },
                 error: function (error) {
                     console.error('Gagal menghapus shift:', error.responseJSON || error);
-                    alert('Gagal menghapus shift. Periksa konsol untuk detail.');
+                    alert('Gagal menghapus shift. Ada Dokter yang shift di waktu tersebut.');
                 }
             });
         }
