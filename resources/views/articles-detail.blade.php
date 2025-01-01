@@ -59,7 +59,7 @@
         <p>Are you sure you want to delete this comment?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cencel</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
         <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
       </div>
     </div>

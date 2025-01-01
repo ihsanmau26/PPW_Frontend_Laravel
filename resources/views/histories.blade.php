@@ -16,6 +16,7 @@
                     <th>Type</th>
                     <th>Date</th>
                     <th>Time</th>
+                    <th class="col-3">File</th>
                     <th class="col-3">Action</th>
                 </tr>
             </thead>        
@@ -70,6 +71,10 @@
                         <td>${history.checkup.checkup_date || '-'}</td>
                         <td>${history.checkup.checkup_time || '-'}</td>
                         <td class="text-center">
+                            <button class="btn btn-secondary pdf1-btn" data-id="${history.id}"><i class="fa-solid fa-download"></i> Letter</button>
+                            <button class="btn btn-secondary pdf2-btn" data-id="${history.id}"><i class="fa-solid fa-download"></i> Prescription</button>
+                        </td>
+                        <td class="text-center">
                             <button class="btn btn-primary detail-btn" data-id="${history.id}">Detail</button>
                             <button class="btn btn-warning edit-btn" data-id="${history.id}">Edit</button>
                             <button class="btn btn-danger delete-btn" data-id="${history.id}">Delete</button>
@@ -101,6 +106,16 @@
                     deleteCheckupHistory(historyId);
                 }
             });
+
+            $('.pdf1-btn').on('click', function () {
+                const historyId = $(this).data('id');
+                letterPDF(historyId);
+            });
+
+            $('.pdf2-btn').on('click', function () {
+                const historyId = $(this).data('id');
+                prescriptionPDF(historyId);
+            });
         }
 
         function deleteCheckupHistory(historyId) {
@@ -114,6 +129,66 @@
                 error: function (error) {
                     console.error('Error deleting checkup history:', error.responseJSON || error);
                     alert('Gagal menghapus checkup history. Periksa konsol untuk detail.');
+                }
+            });
+        }
+
+        function letterPDF(historyId) {
+            $.ajax({
+                url: `${apiBaseUrl}/checkup-histories/${historyId}/sick-leave-letter-pdf`,
+                method: 'GET',
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function (data, status, xhr) {
+                    const blob = new Blob([data], { type: 'application/pdf' });
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+
+                    const contentDisposition = xhr.getResponseHeader('Content-Disposition');
+                    const fileName = contentDisposition
+                        ? contentDisposition.split('filename=')[1].replace(/"/g, '')
+                        : `sick-leave-letter_${historyId}.pdf`;
+
+                    link.setAttribute('download', fileName);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                },
+                error: function (error) {
+                    console.error('Error downloading PDF:', error.responseJSON || error);
+                    alert('Gagal mengunduh file PDF. Periksa konsol untuk detail.');
+                }
+            });
+        }
+
+        function prescriptionPDF(historyId) {
+            $.ajax({
+                url: `${apiBaseUrl}/checkup-histories/${historyId}/prescription-pdf`,
+                method: 'GET',
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function (data, status, xhr) {
+                    const blob = new Blob([data], { type: 'application/pdf' });
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+
+                    const contentDisposition = xhr.getResponseHeader('Content-Disposition');
+                    const fileName = contentDisposition
+                        ? contentDisposition.split('filename=')[1].replace(/"/g, '')
+                        : `prescription_${historyId}.pdf`;
+
+                    link.setAttribute('download', fileName);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                },
+                error: function (error) {
+                    console.error('Error downloading PDF:', error.responseJSON || error);
+                    alert('Gagal mengunduh file PDF. Periksa konsol untuk detail.');
                 }
             });
         }
