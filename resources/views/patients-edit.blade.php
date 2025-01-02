@@ -66,9 +66,9 @@
                 if (response && response.data) {
                     const patient = response.data;
                     $('#name').val(patient.name);
-                    $('#gender').val(patient.gender);
-                    $('#date_of_birth').val(patient.date_of_birth);
-                    $('#phone_number').val(patient.phone_number);
+                    $('#gender').val(patient.patient_details.gender);
+                    $('#date_of_birth').val(patient.patient_details.date_of_birth);
+                    $('#phone_number').val(patient.patient_details.phone_number);
                 } else {
                     console.error('Response data is invalid.');
                 }
